@@ -1,8 +1,110 @@
 import { defineExtension } from 'reactive-vscode'
-import { window } from 'vscode'
+import { window as vscodeWindow, workspace, commands, Uri } from 'vscode'
+import type { QuickPickItem } from 'vscode';
+import * as fs from 'fs';
+import * as path from 'path';
 
-const { activate, deactivate } = defineExtension(() => {
-  window.showInformationMessage('Hello')
+interface FolderItem {
+  name: string;
+  path: string;
+}
+
+const { activate, deactivate } = defineExtension((context) => {  
+  const alias = workspace.getConfiguration('search-folder').get<Record<string, string>>('alias') || {};
+  
+  let basePaths = workspace.getConfiguration('search-folder').get<string[]>('searchPaths') || [];
+  
+  Object.entries(alias).forEach(([key, value]) => {
+    basePaths = basePaths.map(basePath => basePath.replace(key, value));
+  });
+  
+  if (!basePaths || basePaths.length === 0) return;
+
+  const disposable = commands.registerCommand('search-folder.openSearchPanel', () => {
+    const folderList: FolderItem[] = [];
+
+    basePaths.forEach(basePath => {
+
+      const folders = scanFoldersInPath(basePath);
+      folderList.push(...folders);
+    });
+    
+    // create the quick pick items
+    const items: QuickPickItem[] = folderList.map(folder => ({
+      label: folder.name,
+      // description: folder.path,
+      detail: folder.path
+    }));
+
+    // show the quick pick, support input filtering
+    vscodeWindow
+      .showQuickPick(items, {
+        placeHolder: 'Search for folder...',
+        matchOnDescription: true,
+        matchOnDetail: true
+      })
+      .then(selected => {
+        if (selected) {
+          // find the corresponding folder path
+          const folder = folderList.find(f => f.name === selected.label);
+          if (folder) {
+            const folderUri = Uri.file(folder.path);
+
+            // check if the folder exists
+            if (fs.existsSync(folder.path)) {
+              // open the folder
+              commands.executeCommand('vscode.openFolder', folderUri, false).then(
+                () => {
+                  console.log(`opened folder: ${folder.name} - ${folder.path}`);
+                },
+                (error: any) => {
+                  console.error('failed to open folder:', error);
+                  vscodeWindow.showErrorMessage(`failed to open folder: ${error?.message || String(error)}`);
+                }
+              );
+            } else {
+              vscodeWindow.showErrorMessage(`folder not found: ${folder.path}`);
+            }
+          }
+        }
+      });
+  });
+
+  context.subscriptions.push(disposable);
 })
+
+/**
+ * Scan the first-level folders under the specified path
+ */
+function scanFoldersInPath(basePath: string): FolderItem[] {
+  const folders: FolderItem[] = [];
+
+  if (!fs.existsSync(basePath)) {
+    console.warn(`path not found: ${basePath}`);
+    return folders;
+  }
+
+  try {
+    const items = fs.readdirSync(basePath);
+    items.forEach(item => {
+      const itemPath = path.join(basePath, item);
+      try {
+        const stat = fs.statSync(itemPath);
+        if (stat.isDirectory()) {
+          folders.push({
+            name: item,
+            path: itemPath
+          });
+        }
+      } catch (error) {
+        console.warn(`failed to read ${itemPath}:`, error);
+      }
+    });
+  } catch (error) {
+    console.error(`failed to scan path ${basePath}:`, error);
+  }
+
+  return folders;
+}
 
 export { activate, deactivate }

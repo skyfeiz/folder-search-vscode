@@ -1,24 +1,21 @@
 {
-  "publisher": "antfu",
-  "name": "ext-name",
-  "displayName": "ext-name",
-  "version": "0.0.0",
+  "publisher": "skyfeiz",
+  "name": "search-folder",
+  "displayName": "search-folder",
+  "version": "0.0.1",
   "private": true,
   "packageManager": "pnpm@10.4.1",
   "description": "",
-  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "author": "skyfeiz <webyicunhui@outlook.com>",
   "license": "MIT",
   "funding": "https://github.com/sponsors/antfu",
-  "homepage": "https://github.com/antfu/ext-name#readme",
+  "homepage": "https://github.com/skyfeiz/search-folder-vscode",
   "repository": {
     "type": "git",
-    "url": "https://github.com/antfu/ext-name"
+    "url": "https://github.com/skyfeiz/search-folder-vscode"
   },
   "bugs": {
-    "url": "https://github.com/antfu/ext-name/issues"
-  },
-  "sponsor": {
-    "url": "https://github.com/sponsors/antfu"
+    "url": "https://github.com/skyfeiz/search-folder-vscode/issues"
   },
   "categories": [
     "Other"
@@ -37,12 +34,35 @@
     "onStartupFinished"
   ],
   "contributes": {
-    "commands": [],
-    "configuration": {
-      "type": "object",
-      "title": "ext-name",
-      "properties": {}
-    }
+    "configuration": [
+      {
+        "title": "search-folder",
+        "properties": {
+          "project-search.searchPaths": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "The path to search for folders"
+            },
+            "default": [],
+            "description": "The paths to search for folders"
+          }
+        }
+      }
+    ],
+    "commands": [
+      {
+        "command": "search-folder.openSearchPanel",
+        "title": "Open Project Search Panel"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "search-folder.openSearchPanel",
+        "key": "ctrl+alt+p",
+        "mac": "cmd+alt+p"
+      }
+    ]
   },
   "scripts": {
     "build": "tsdown src/index.ts --external vscode",
