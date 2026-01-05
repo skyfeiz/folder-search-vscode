@@ -20,7 +20,6 @@ Search and open the project folder in VSCode.
     ]
   }
 }
-
 ```
 
 Only scan the first-level folders under the `searchPaths`.
