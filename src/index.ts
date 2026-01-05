@@ -10,9 +10,9 @@ interface FolderItem {
 }
 
 const { activate, deactivate } = defineExtension((context) => {
-  const alias = workspace.getConfiguration('search-folder').get<Record<string, string>>('alias') || {}
+  const alias = workspace.getConfiguration('folder-search').get<Record<string, string>>('alias') || {}
 
-  let basePaths = workspace.getConfiguration('search-folder').get<string[]>('searchPaths') || []
+  let basePaths = workspace.getConfiguration('folder-search').get<string[]>('searchPaths') || []
 
   Object.entries(alias).forEach(([key, value]) => {
     basePaths = basePaths.map(basePath => basePath.replace(key, value))
