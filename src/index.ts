@@ -10,18 +10,18 @@ interface FolderItem {
 }
 
 const { activate, deactivate } = defineExtension((context) => {
-  const alias = workspace.getConfiguration('folder-search').get<Record<string, string>>('alias') || {}
-
-  let basePaths = workspace.getConfiguration('folder-search').get<string[]>('searchPaths') || []
-
-  Object.entries(alias).forEach(([key, value]) => {
-    basePaths = basePaths.map(basePath => basePath.replace(key, value))
-  })
-
-  if (!basePaths || basePaths.length === 0)
-    return
-
   const disposable = commands.registerCommand('search-folder.openSearchPanel', () => {
+    const alias = workspace.getConfiguration('folder-search').get<Record<string, string>>('alias') || {}
+
+    let basePaths = workspace.getConfiguration('folder-search').get<string[]>('searchPaths') || []
+
+    Object.entries(alias).forEach(([key, value]) => {
+      basePaths = basePaths.map(basePath => basePath.replace(key, value))
+    })
+
+    if (!basePaths || basePaths.length === 0)
+      return
+
     const folderList: FolderItem[] = []
 
     basePaths.forEach((basePath) => {
