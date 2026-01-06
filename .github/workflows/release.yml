@@ -35,7 +35,7 @@ jobs:
       - run: pnpm install
 
       - name: Generate .vsix file
-        run: pnpm package
+        run: vsce package --no-dependencies
 
       - name: Publish Extension
         run: npx vsxpub --no-dependencies
