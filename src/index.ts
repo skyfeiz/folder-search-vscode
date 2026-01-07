@@ -25,7 +25,36 @@ const { activate, deactivate } = defineExtension((context) => {
     const folderList: FolderItem[] = []
 
     basePaths.forEach((basePath) => {
-      const folders = scanFoldersInPath(basePath)
+      let folders: FolderItem[] = []
+      // whether the path has '*', '**' will be converted to '*'
+      if (basePath.includes('*')) {
+        basePath = basePath.replace(/\*+/g, '*')
+        // /a/b/*/c/d  ->  ['/a/b/', '/c/d']
+        const pathParts = basePath.split('*')
+
+        let tempFolders: FolderItem[] = [{ name: '', path: '' }]
+
+        while (pathParts.length > 0) {
+          const part = pathParts.shift()!
+
+          const newTempPaths: FolderItem[] = []
+
+          tempFolders.forEach((tempPath) => {
+            const newPath = path.join(tempPath.path, part)
+            if (fs.existsSync(newPath)) {
+              const tempFolders = scanFoldersInPath(newPath)
+              newTempPaths.push(...tempFolders)
+            }
+          })
+
+          tempFolders = newTempPaths
+        }
+
+        folders = tempFolders
+      }
+      else {
+        folders = scanFoldersInPath(basePath)
+      }
       folderList.push(...folders)
     })
 
@@ -93,10 +122,7 @@ function scanFoldersInPath(basePath: string): FolderItem[] {
       try {
         const stat = fs.statSync(itemPath)
         if (stat.isDirectory()) {
-          folders.push({
-            name: item,
-            path: itemPath,
-          })
+          folders.push({ name: item, path: itemPath })
         }
       }
       catch (error) {
