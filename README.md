@@ -14,15 +14,17 @@ Search and open the project folder in VSCode.
       "@": "/Users/skyfeiz/Documents/workspace"
     },
     "searchPaths": [
-      "@/doing",
-      "@/done",
-      "@/test"
+      "@/doing", // scan the first-level folders under the @/doing
+      "@/*/plugins", // scan the first-level folders under the @/all-folders/plugins
     ]
   }
 }
 ```
 
-Only scan the first-level folders under the `searchPaths`.
+- Only scan the first-level folders under the `searchPaths`.
+- Support wildcard `*` in the `searchPaths`.
+  - not support `**` yet. will be converted to `*`
+- Support alias in the `searchPaths`.
 
 ## Commands
 
