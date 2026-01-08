@@ -1,5 +1,5 @@
-import { execSync } from 'node:child_process'
-import { defineConfig } from 'tsdown'
+import { execSync } from 'node:child_process';
+import { defineConfig } from 'tsdown';
 
 export default defineConfig({
   entry: [
@@ -13,7 +13,7 @@ export default defineConfig({
   ],
   hooks(hooks) {
     hooks.hookOnce('build:prepare', () => {
-      execSync('nr update')
-    })
+      execSync('nr update');
+    });
   },
-})
+});

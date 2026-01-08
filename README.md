@@ -15,7 +15,7 @@ Search and open the project folder in VSCode.
     },
     "searchPaths": [
       "@/doing", // scan the first-level folders under the @/doing
-      "@/*/plugins", // scan the first-level folders under the @/all-folders/plugins
+      "@/*/plugins" // scan the first-level folders under the @/all-folders/plugins
     ]
   }
 }
