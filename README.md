@@ -8,16 +8,15 @@ Search and open the project folder in VSCode.
 ## Configurations
 
 ```jsonc
+// settings.json
 {
-  "folder-search": {
-    "alias": {
-      "@": "/Users/skyfeiz/Documents/workspace"
-    },
-    "searchPaths": [
-      "@/doing", // scan the first-level folders under the @/doing
-      "@/*/plugins" // scan the first-level folders under the @/all-folders/plugins
-    ]
-  }
+  "folder-search.alias": {
+    "@": "/Users/skyfeiz/Documents/workspace"
+  },
+  "folder-search.searchPaths": [
+    "@/doing", // scan the first-level folders under the @/doing
+    "@/*/plugins" // scan the first-level folders under the @/all-folders/plugins
+  ]
 }
 ```
 

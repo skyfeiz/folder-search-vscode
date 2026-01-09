@@ -34,8 +34,14 @@
   "contributes": {
     "configuration": [
       {
+        "type": "object",
         "title": "folder-search",
         "properties": {
+          "folder-search.alias": {
+            "type": "object",
+            "default": {},
+            "description": "The alias of the path"
+          },
           "folder-search.searchPaths": {
             "type": "array",
             "items": {
