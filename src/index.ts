@@ -74,7 +74,7 @@ const { activate, deactivate } = defineExtension((context) => {
       .then((selected) => {
         if (selected) {
           // find the corresponding folder path
-          const folder = folderList.find(f => f.name === selected.label);
+          const folder = folderList.find(f => f.path === selected.detail);
           if (folder) {
             const folderUri = Uri.file(folder.path);
 
