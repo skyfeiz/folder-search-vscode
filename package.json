@@ -40,7 +40,12 @@
           "folder-search.alias": {
             "type": "object",
             "default": {},
-            "description": "The alias of the path"
+            "description": "The alias of the path",
+            "additionalProperties": {
+              "type": "string",
+              "default": "",
+              "description": "The alias of the path"
+            }
           },
           "folder-search.searchPaths": {
             "type": "array",
