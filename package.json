@@ -55,6 +55,12 @@
             },
             "default": [],
             "description": "The paths to search for folders"
+          },
+          "folder-search.openMode": {
+            "type": "string",
+            "default": "new",
+            "description": "The mode to open the folder",
+            "enum": ["new", "add"]
           }
         }
       }

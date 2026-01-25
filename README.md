@@ -16,7 +16,8 @@ Search and open the project folder in VSCode.
   "folder-search.searchPaths": [
     "@/doing", // scan the first-level folders under the @/doing
     "@/*/plugins" // scan the first-level folders under the @/all-folders/plugins
-  ]
+  ],
+  "folder-search.openMode": "new" // "new" or "add"
 }
 ```
 
@@ -24,6 +25,9 @@ Search and open the project folder in VSCode.
 - Support wildcard `*` in the `searchPaths`.
   - not support `**` yet. will be converted to `*`
 - Support alias in the `searchPaths`.
+- Support `openMode` to control the mode to open the folder.
+  - `new`: open the folder in a new workspace, will delete the current workspace.
+  - `add`: add the folder to the current workspace.
 
 ## Commands
 
