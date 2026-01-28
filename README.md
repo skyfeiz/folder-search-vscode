@@ -14,20 +14,24 @@ Search and open the project folder in VSCode.
     "@": "/Users/skyfeiz/Documents/workspace"
   },
   "folder-search.searchPaths": [
-    "@/doing", // scan the first-level folders under the @/doing
-    "@/*/plugins" // scan the first-level folders under the @/all-folders/plugins
+    "@/doing/*", // scan the folders under the @/doing
+    "@/doing/a*", // scan the folders under the @/doing/temp that start with 'a'
+    "@/doing/a*b", // scan the folders under the @/doing/temp that start with 'a' and end with 'b'
+    "@/*/plugins/*", // scan the folders under the @/all-folders/plugins
+    "!@/*/temp" // exclude the folders under the @/all-folders/temp
   ],
   "folder-search.openMode": "new" // "new" or "add"
 }
 ```
 
-- Only scan the first-level folders under the `searchPaths`.
+- if you want to scan all the folders under the `searchPaths`, you can use `/*` to replace the folder name.
 - Support wildcard `*` in the `searchPaths`.
   - not support `**` yet. will be converted to `*`
 - Support alias in the `searchPaths`.
 - Support `openMode` to control the mode to open the folder.
   - `new`: open the folder in a new workspace, will delete the current workspace.
   - `add`: add the folder to the current workspace.
+- Support `!` to exclude the folders in the `searchPaths`.
 
 ## Commands
 

@@ -1,47 +1,24 @@
 import type { FolderItem } from './type';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
+import fg from 'fast-glob';
 
 export function getFolderList(alias: Record<string, string>, basePaths: string[]): FolderItem[] {
   Object.entries(alias).forEach(([key, value]) => {
-    basePaths = basePaths.map(basePath => basePath.replace(key, value));
+    basePaths = basePaths.map(basePath => `${basePath.replace(key, value).replace(/\*+/g, '*')}`);
   });
 
   if (!basePaths || basePaths.length === 0)
     return [];
 
+  const folders = fg.sync(basePaths, {
+    onlyDirectories: true,
+  });
+
   const folderList: FolderItem[] = [];
 
-  basePaths.forEach((basePath) => {
-    let folders: FolderItem[] = [];
-    // whether the path has '*', '**' will be converted to '*'
-    if (basePath.includes('*')) {
-      basePath = basePath.replace(/\*+/g, '*');
-      // /a/b/*/c/d  ->  ['/a/b/', '/c/d']
-      const pathParts = basePath.split('*');
-
-      let tempFolders: FolderItem[] = [{ name: '', path: '' }];
-
-      while (pathParts.length > 0) {
-        const part = pathParts.shift()!;
-
-        const newTempPaths: FolderItem[] = [];
-
-        tempFolders.forEach((tempPath) => {
-          const newPath = path.join(tempPath.path, part);
-          if (fs.existsSync(newPath)) {
-            const tempFolders = scanFoldersInPath(newPath);
-            newTempPaths.push(...tempFolders);
-          }
-        });
-
-        tempFolders = newTempPaths;
-      }
-      folders = tempFolders;
-    } else {
-      folders = scanFoldersInPath(basePath);
-    }
-    folderList.push(...folders);
+  folders.forEach((folder) => {
+    folderList.push({ name: folder.split('/').pop()!, path: folder });
   });
 
   return folderList;
@@ -57,6 +34,8 @@ export function scanFoldersInPath(basePath: string): FolderItem[] {
     console.warn(`path not found: ${basePath}`);
     return folders;
   }
+
+  console.warn(62, basePath);
 
   try {
     const items = fs.readdirSync(basePath);

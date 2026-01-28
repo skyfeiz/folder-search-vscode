@@ -10,8 +10,8 @@ describe('should', () => {
   const alias = { '@': TEMP_FOLDER };
   let searchPaths = [];
 
-  it('@/*', () => {
-    searchPaths = ['@/*'];
+  it('@/*/*', () => {
+    searchPaths = ['@/*/*'];
 
     const folderList = getFolderList(alias, searchPaths);
     const target = [
@@ -25,8 +25,8 @@ describe('should', () => {
     expect(folderList).toEqual(target);
   });
 
-  it('@/*/aaa', () => {
-    searchPaths = ['@/*/aaa'];
+  it('@/*/aaa/*', () => {
+    searchPaths = ['@/*/aaa/*'];
 
     const folderList = getFolderList(alias, searchPaths);
     const target = [
@@ -39,8 +39,8 @@ describe('should', () => {
     expect(folderList).toEqual(target);
   });
 
-  it('@/*/*', () => {
-    searchPaths = ['@/*/*'];
+  it('@/*/*/*', () => {
+    searchPaths = ['@/*/*/*'];
 
     const folderList = getFolderList(alias, searchPaths);
     const target = [
