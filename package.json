@@ -96,7 +96,8 @@
     "ext:publish": "vsxpub --no-dependencies"
   },
   "dependencies": {
-    "fast-glob": "^3.3.3"
+    "fast-glob": "^3.3.3",
+    "pathe": "^2.0.3"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^4.2.1",

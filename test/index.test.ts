@@ -1,4 +1,5 @@
 import * as path from 'node:path';
+import { normalize } from 'pathe';
 import { afterAll, describe, expect, it } from 'vitest';
 import { getFolderList } from '../src/utils';
 import { createTestFolder, deleteTestFolder, TEMP_FOLDER } from './mockFolders';
@@ -20,7 +21,7 @@ describe('should', () => {
       { name: 'aaa', path: path.join(TEMP_FOLDER, 'test2', 'aaa') },
       { name: 'bbb', path: path.join(TEMP_FOLDER, 'test2', 'bbb') },
       { name: 'ccc', path: path.join(TEMP_FOLDER, 'test3', 'ccc') },
-    ];
+    ].map(item => ({ ...item, path: normalize(item.path) }));
 
     expect(folderList).toEqual(target);
   });
@@ -34,7 +35,7 @@ describe('should', () => {
       { name: 'project2', path: path.join(TEMP_FOLDER, 'test1', 'aaa', 'project2') },
       { name: 'project1', path: path.join(TEMP_FOLDER, 'test2', 'aaa', 'project1') },
       { name: 'project2', path: path.join(TEMP_FOLDER, 'test2', 'aaa', 'project2') },
-    ];
+    ].map(item => ({ ...item, path: normalize(item.path) }));
 
     expect(folderList).toEqual(target);
   });
@@ -54,7 +55,7 @@ describe('should', () => {
       { name: 'project2', path: path.join(TEMP_FOLDER, 'test2', 'bbb', 'project2') },
       { name: 'project1', path: path.join(TEMP_FOLDER, 'test3', 'ccc', 'project1') },
       { name: 'project2', path: path.join(TEMP_FOLDER, 'test3', 'ccc', 'project2') },
-    ];
+    ].map(item => ({ ...item, path: normalize(item.path) }));
 
     expect(folderList).toEqual(target);
   });

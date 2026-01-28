@@ -2,6 +2,7 @@ import type { FolderItem } from './type';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import fg from 'fast-glob';
+import { normalize } from 'pathe';
 
 export function getFolderList(alias: Record<string, string>, basePaths: string[]): FolderItem[] {
   Object.entries(alias).forEach(([key, value]) => {
@@ -10,10 +11,8 @@ export function getFolderList(alias: Record<string, string>, basePaths: string[]
       basePath = basePath.replace(key, value);
       // replace ** to *
       basePath = basePath.replace(/\*+/g, '*');
-      // windows path replace \ to /
-      basePath = basePath.replace(/\\/g, '/');
 
-      return basePath;
+      return normalize(basePath);
     });
   });
 
