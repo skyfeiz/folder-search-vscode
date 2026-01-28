@@ -95,6 +95,9 @@
     "ext:package": "vsce package --no-dependencies",
     "ext:publish": "vsxpub --no-dependencies"
   },
+  "dependencies": {
+    "fast-glob": "^3.3.3"
+  },
   "devDependencies": {
     "@antfu/eslint-config": "^4.2.1",
     "@antfu/ni": "^23.3.1",
@@ -113,8 +116,5 @@
     "vitest": "^3.0.5",
     "vscode-ext-gen": "^1.0.0",
     "vsxpub": "^0.1.2"
-  },
-  "dependencies": {
-    "fast-glob": "^3.3.3"
   }
 }
