@@ -5,7 +5,16 @@ import fg from 'fast-glob';
 
 export function getFolderList(alias: Record<string, string>, basePaths: string[]): FolderItem[] {
   Object.entries(alias).forEach(([key, value]) => {
-    basePaths = basePaths.map(basePath => `${basePath.replace(key, value).replace(/\*+/g, '*')}`);
+    basePaths = basePaths.map((basePath) => {
+      // replace @ to the alias value
+      basePath = basePath.replace(key, value);
+      // replace ** to *
+      basePath = basePath.replace(/\*+/g, '*');
+      // windows path replace \ to /
+      basePath = basePath.replace(/\\/g, '/');
+
+      return basePath;
+    });
   });
 
   if (!basePaths || basePaths.length === 0)
@@ -34,8 +43,6 @@ export function scanFoldersInPath(basePath: string): FolderItem[] {
     console.warn(`path not found: ${basePath}`);
     return folders;
   }
-
-  console.warn(62, basePath);
 
   try {
     const items = fs.readdirSync(basePath);
