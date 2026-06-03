@@ -39,7 +39,7 @@ Configure search path, search and open project folder.
 
 | Command                         | Title                    |
 | ------------------------------- | ------------------------ |
-| `search-folder.openSearchPanel` | Open folder Search Panel |
+| `⌘(Command) + ⌥(Option/Alt) + P` | Open folder Search Panel |
 
 <!-- commands -->
 
